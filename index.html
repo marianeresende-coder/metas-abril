@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Parcial de Abril — Seazone</title>
+<style>
+:root{
+  --bg:#0D0D1A;--card:#13131F;--card2:#1A1A2E;--border:#252540;
+  --orange:#FF6B35;--orange2:#FF8C42;--green:#2ECC71;--green2:#27ae60;
+  --red:#EF4444;--yellow:#EAB308;--blue:#3B82F6;--purple:#A855F7;
+  --text:#E8E8F4;--muted:#6B6B8A;--white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#0D0D1A 0%,#1a0a2e 50%,#0D0D1A 100%);
+  border-bottom:1px solid var(--border);
+  padding:56px 24px 48px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 50% 0%,#FF6B3518 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#FF6B3514;border:1px solid #FF6B3530;
+  color:var(--orange);font-size:.75rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:6px 16px;border-radius:20px;margin-bottom:20px;
+}
+.hero-tag .pulse{
+  width:7px;height:7px;border-radius:50%;background:var(--orange);
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:12px;}
+.hero h1 span{color:var(--orange);}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:580px;margin:0 auto 32px;}
+.hero-meta{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.hero-chip{text-align:center;}
+.hero-chip .val{font-size:2rem;font-weight:900;color:#fff;line-height:1;}
+.hero-chip .lbl{font-size:.75rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
+
+/* ── COUNTDOWN ── */
+.countdown-bar{
+  background:linear-gradient(90deg,var(--orange),var(--orange2));
+  padding:14px 24px;text-align:center;
+  font-size:.9rem;font-weight:700;color:#fff;
+  letter-spacing:.5px;
+}
+.countdown-bar span{font-size:1.1rem;}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-size:.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--orange);font-weight:700;margin-bottom:8px;}
+.sec-title{font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;color:#fff;margin-bottom:4px;}
+.sec-sub{font-size:.9rem;color:var(--muted);margin-bottom:36px;}
+
+/* ── OVERVIEW NUMBERS ── */
+.overview{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;margin:48px 0 52px;
+}
+.ov-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:24px 20px;position:relative;overflow:hidden;
+}
+.ov-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--accent);border-radius:3px 3px 0 0;
+}
+.ov-card.green{--accent:var(--green);}
+.ov-card.orange{--accent:var(--orange);}
+.ov-card.red{--accent:var(--red);}
+.ov-card.blue{--accent:var(--blue);}
+.ov-card .ov-val{font-size:2.4rem;font-weight:900;color:#fff;line-height:1;margin-bottom:4px;}
+.ov-card .ov-val span{font-size:1.1rem;font-weight:400;color:var(--muted);}
+.ov-card .ov-label{font-size:.8rem;color:var(--muted);margin-bottom:12px;}
+.ov-card .ov-pct{
+  font-size:.82rem;font-weight:700;padding:3px 10px;border-radius:8px;
+  display:inline-block;
+}
+.ov-card.green .ov-pct{background:#2ECC7120;color:var(--green);}
+.ov-card.orange .ov-pct{background:#FF6B3520;color:var(--orange);}
+.ov-card.red .ov-pct{background:#EF444420;color:var(--red);}
+.ov-card.blue .ov-pct{background:#3B82F620;color:var(--blue);}
+
+/* ── AREA CARDS ── */
+.area-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;margin-bottom:52px;}
+
+.area-card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
+.area-head{padding:22px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;}
+.area-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.area-name{font-size:1.05rem;font-weight:800;color:#fff;}
+.area-tag{font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:8px;margin-top:3px;display:inline-block;}
+.area-body{padding:22px 24px;}
+
+/* ring */
+.ring-wrap{display:flex;align-items:center;gap:20px;margin-bottom:20px;}
+.ring{position:relative;width:80px;height:80px;flex-shrink:0;}
+.ring svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:var(--border);stroke-width:7;}
+.ring-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .8s ease;}
+.ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-pct{font-size:.95rem;font-weight:900;color:#fff;line-height:1;}
+.ring-done{font-size:.62rem;color:var(--muted);margin-top:2px;}
+.ring-info{}
+.ring-total{font-size:1.8rem;font-weight:900;color:#fff;line-height:1;}
+.ring-total span{font-size:.9rem;font-weight:400;color:var(--muted);}
+.ring-label{font-size:.8rem;color:var(--muted);margin-top:2px;}
+.ring-remain{font-size:.8rem;font-weight:700;margin-top:6px;}
+
+/* breakdown rows */
+.breakdown{display:flex;flex-direction:column;gap:10px;}
+.bk-row{display:flex;flex-direction:column;gap:5px;}
+.bk-head{display:flex;justify-content:space-between;font-size:.8rem;}
+.bk-name{color:var(--muted);}
+.bk-nums{font-weight:700;color:#fff;}
+.bk-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.bk-fill{height:100%;border-radius:3px;transition:width .8s ease;}
+
+/* alert box */
+.area-alert{
+  margin:14px 0 0;padding:12px 14px;border-radius:10px;
+  font-size:.82rem;line-height:1.5;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.area-alert.warn{background:#EAB30810;border:1px solid #EAB30830;color:var(--yellow);}
+.area-alert.info{background:#3B82F610;border:1px solid #3B82F630;color:var(--blue);}
+.area-alert.bad{background:#EF444410;border:1px solid #EF444430;color:var(--red);}
+.area-alert.good{background:#2ECC7110;border:1px solid #2ECC7130;color:var(--green);}
+
+/* ── RITMO ── */
+.ritmo-section{margin-bottom:52px;}
+.ritmo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.ritmo-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.ritmo-area{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;}
+.ritmo-title{font-size:1rem;font-weight:700;color:#fff;}
+.ritmo-rows{display:flex;flex-direction:column;gap:8px;}
+.ritmo-row{display:flex;justify-content:space-between;align-items:center;font-size:.84rem;}
+.ritmo-row .rk{color:var(--muted);}
+.ritmo-row .rv{font-weight:700;color:#fff;}
+.ritmo-row .rv.hot{color:var(--orange);}
+.ritmo-row .rv.ok{color:var(--green);}
+.ritmo-row .rv.bad{color:var(--red);}
+
+/* ── MOTIVACIONAL ── */
+.motive{
+  background:linear-gradient(135deg,#1a0a2e,#0D0D1A);
+  border:1px solid #FF6B3530;border-radius:24px;
+  padding:48px 36px;text-align:center;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.motive::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 50% 60% at 50% 100%,#FF6B3514 0%,transparent 70%);
+  pointer-events:none;
+}
+.motive h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:#fff;margin-bottom:14px;line-height:1.2;}
+.motive h2 span{color:var(--orange);}
+.motive p{font-size:1rem;color:var(--muted);max-width:560px;margin:0 auto 28px;line-height:1.7;}
+.motive-items{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.motive-item{text-align:center;}
+.motive-item .mi-num{font-size:2rem;font-weight:900;color:var(--orange);}
+.motive-item .mi-lbl{font-size:.78rem;color:var(--muted);margin-top:2px;}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:24px;font-size:.78rem;color:var(--muted);}
+
+@media(max-width:600px){
+  .hero-meta{gap:20px;}
+  .area-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- COUNTDOWN BAR -->
+<div class="countdown-bar">
+  ⏱ <span>15 dias restantes</span> para fechar abril — a segunda quinzena começa AGORA
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-tag"><div class="pulse"></div> Parcial ao vivo · 16 de abril</div>
+    <h1>Abril ainda <span>é nosso.</span></h1>
+    <p class="hero-sub">Metade do mês passou. Metade ainda está por vir — e é exatamente aí que a virada acontece.</p>
+    <div class="hero-meta">
+      <div class="hero-chip">
+        <div class="val">16</div>
+        <div class="lbl">dias passados</div>
+      </div>
+      <div class="hero-chip">
+        <div class="val" style="color:var(--orange)">15</div>
+        <div class="lbl">dias restantes</div>
+      </div>
+      <div class="hero-chip">
+        <div class="val">17</div>
+        <div class="lbl">vendas até agora</div>
+      </div>
+      <div class="hero-chip">
+        <div class="val" style="color:var(--orange)">123</div>
+        <div class="lbl">meta total</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="wrap">
+  <div style="padding-top:48px;">
+    <div class="sec-label">visão geral</div>
+    <div class="sec-title">Onde estamos hoje</div>
+    <div class="sec-sub">Parcial consolidado por área — 16/04/2026</div>
+  </div>
+
+  <div class="overview">
+    <div class="ov-card orange">
+      <div class="ov-val">9 <span>/ 25</span></div>
+      <div class="ov-label">SZI — Investimentos</div>
+      <div class="ov-pct">36% atingido</div>
+    </div>
+    <div class="ov-card red">
+      <div class="ov-val">0 <span>/ 10</span></div>
+      <div class="ov-label">Marketplace</div>
+      <div class="ov-pct">0% atingido</div>
+    </div>
+    <div class="ov-card orange">
+      <div class="ov-val">8+ <span>/ 105</span></div>
+      <div class="ov-label">Serviços SZS</div>
+      <div class="ov-pct">+7% confirmado</div>
+    </div>
+    <div class="ov-card blue">
+      <div class="ov-val">17 <span>/ 140</span></div>
+      <div class="ov-label">Total Geral</div>
+      <div class="ov-pct">~12% geral</div>
+    </div>
+  </div>
+
+  <!-- AREA CARDS -->
+  <div class="sec-label">por área</div>
+  <div class="sec-title">Detalhamento por canal</div>
+  <div class="sec-sub">Clique nas metas, cobre resultado, celebre o avanço.</div>
+
+  <div class="area-grid">
+
+    <!-- SZI -->
+    <div class="area-card">
+      <div class="area-head">
+        <div class="area-icon" style="background:#FF6B3520;">💼</div>
+        <div>
+          <div class="area-name">SZI — Investimentos</div>
+          <div class="area-tag" style="background:#FF6B3520;color:var(--orange);">Em andamento</div>
+        </div>
+      </div>
+      <div class="area-body">
+        <div class="ring-wrap">
+          <div class="ring">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="33"/>
+              <circle class="ring-fill" cx="40" cy="40" r="33"
+                stroke="var(--orange)"
+                stroke-dasharray="207.3"
+                stroke-dashoffset="132.7"/>
+            </svg>
+            <div class="ring-text">
+              <div class="ring-pct">36%</div>
+              <div class="ring-done">feito</div>
+            </div>
+          </div>
+          <div class="ring-info">
+            <div class="ring-total">9 <span>/ 25</span></div>
+            <div class="ring-label">vendas realizadas</div>
+            <div class="ring-remain" style="color:var(--orange)">faltam 16 vendas</div>
+          </div>
+        </div>
+        <div class="breakdown">
+          <div class="bk-row">
+            <div class="bk-head">
+              <span class="bk-name">📣 Mídia Paga</span>
+              <span class="bk-nums">7 / 15</span>
+            </div>
+            <div class="bk-bar"><div class="bk-fill" style="width:46.7%;background:var(--orange);"></div></div>
+          </div>
+          <div class="bk-row">
+            <div class="bk-head">
+              <span class="bk-name">🌱 Não Pago</span>
+              <span class="bk-nums">2 / 10</span>
+            </div>
+            <div class="bk-bar"><div class="bk-fill" style="width:20%;background:var(--yellow);"></div></div>
+          </div>
+        </div>
+        <div class="area-alert warn">
+          <span>⚡</span>
+          <span>Pago em bom ritmo (47%). Não pago precisa acelerar — 8 vendas ainda em aberto para bater a meta.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MKT PLACE -->
+    <div class="area-card">
+      <div class="area-head">
+        <div class="area-icon" style="background:#EF444420;">🛒</div>
+        <div>
+          <div class="area-name">Marketplace</div>
+          <div class="area-tag" style="background:#EF444420;color:var(--red);">Atenção máxima</div>
+        </div>
+      </div>
+      <div class="area-body">
+        <div class="ring-wrap">
+          <div class="ring">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="33"/>
+              <circle class="ring-fill" cx="40" cy="40" r="33"
+                stroke="var(--red)"
+                stroke-dasharray="207.3"
+                stroke-dashoffset="207.3"/>
+            </svg>
+            <div class="ring-text">
+              <div class="ring-pct" style="font-size:1.1rem;">😢</div>
+            </div>
+          </div>
+          <div class="ring-info">
+            <div class="ring-total">0 <span>/ 10</span></div>
+            <div class="ring-label">vendas realizadas</div>
+            <div class="ring-remain" style="color:var(--red)">faltam 10 vendas</div>
+          </div>
+        </div>
+        <div class="breakdown">
+          <div class="bk-row">
+            <div class="bk-head">
+              <span class="bk-name">📣 Mídia Paga</span>
+              <span class="bk-nums">0 / 6</span>
+            </div>
+            <div class="bk-bar"><div class="bk-fill" style="width:0%;background:var(--red);"></div></div>
+          </div>
+          <div class="bk-row">
+            <div class="bk-head">
+              <span class="bk-name">📨 Disparo Interno</span>
+              <span class="bk-nums">0 / 4</span>
+            </div>
+            <div class="bk-bar"><div class="bk-fill" style="width:0%;background:var(--red);"></div></div>
+          </div>
+        </div>
+        <div class="area-alert info">
+          <span>🔥</span>
+          <span><strong>1 contrato quase saindo</strong> — essa pode ser a faísca que acende o mês. Prioridade máxima fechar essa semana.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVIÇOS -->
+    <div class="area-card">
+      <div class="area-head">
+        <div class="area-icon" style="background:#3B82F620;">🏠</div>
+        <div>
+          <div class="area-name">Serviços SZS</div>
+          <div class="area-tag" style="background:#EAB30820;color:var(--yellow);">Parcial — não pago pendente</div>
+        </div>
+      </div>
+      <div class="area-body">
+        <div class="ring-wrap">
+          <div class="ring">
+            <svg width="80" height="80" viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="33"/>
+              <circle class="ring-fill" cx="40" cy="40" r="33"
+                stroke="var(--blue)"
+                stroke-dasharray="207.3"
+                stroke-dashoffset="191.9"/>
+            </svg>
+            <div class="ring-text">
+              <div class="ring-pct">7%</div>
+              <div class="ring-done">pago</div>
+            </div>
+          </div>
+          <div class="ring-info">
+            <div class="ring-total">8 <span>/ 71</span></div>
+            <div class="ring-label">pagos confirmados</div>
+            <div class="ring-remain" style="color:var(--yellow)">não pago: aguardando</div>
+          </div>
+        </div>
+        <div class="breakdown">
+          <div class="bk-row">
+            <div class="bk-head">
+              <span class="bk-name">📣 Mídia Paga</span>
+              <span class="bk-nums">8 / 71</span>
+            </div>
+            <div class="bk-bar"><div class="bk-fill" style="width:11.3%;background:var(--blue);"></div></div>
+          </div>
+          <div class="bk-row">
+            <div class="bk-head">
+              <span class="bk-name">🌱 Não Pago</span>
+              <span class="bk-nums">? / 34</span>
+            </div>
+            <div class="bk-bar"><div class="bk-fill" style="width:0%;background:var(--muted);"></div></div>
+          </div>
+        </div>
+        <div class="area-alert warn">
+          <span>📊</span>
+          <span>Número de não pago ainda pendente. Atualização necessária para ter visão completa do canal.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RITMO NECESSÁRIO -->
+  <div class="ritmo-section">
+    <div class="sec-label">segunda quinzena</div>
+    <div class="sec-title">O ritmo que precisa acontecer</div>
+    <div class="sec-sub">15 dias. O que cada área precisa entregar por dia e por semana para fechar abril no verde.</div>
+
+    <div class="ritmo-grid">
+      <div class="ritmo-card">
+        <div class="ritmo-area" style="color:var(--orange);">💼 SZI — Investimentos</div>
+        <div class="ritmo-title">Faltam 16 vendas</div>
+        <div class="ritmo-rows">
+          <div class="ritmo-row"><span class="rk">Meta diária necessária</span><span class="rv hot">1,1 venda/dia</span></div>
+          <div class="ritmo-row"><span class="rk">Meta semanal (2 semanas)</span><span class="rv hot">8 vendas/semana</span></div>
+          <div class="ritmo-row"><span class="rk">Ritmo atual (16 dias)</span><span class="rv">0,56/dia</span></div>
+          <div class="ritmo-row"><span class="rk">Aceleração necessária</span><span class="rv hot">2× o ritmo atual</span></div>
+        </div>
+      </div>
+      <div class="ritmo-card">
+        <div class="ritmo-area" style="color:var(--red);">🛒 Marketplace</div>
+        <div class="ritmo-title">Faltam 10 vendas (9 c/ contrato)</div>
+        <div class="ritmo-rows">
+          <div class="ritmo-row"><span class="rk">Meta diária necessária</span><span class="rv bad">0,67 venda/dia</span></div>
+          <div class="ritmo-row"><span class="rk">Meta semanal</span><span class="rv bad">5 vendas/semana</span></div>
+          <div class="ritmo-row"><span class="rk">Contrato quase fechado</span><span class="rv ok">+1 em vista 🔥</span></div>
+          <div class="ritmo-row"><span class="rk">Prioridade</span><span class="rv bad">Máxima</span></div>
+        </div>
+      </div>
+      <div class="ritmo-card">
+        <div class="ritmo-area" style="color:var(--blue);">🏠 Serviços SZS</div>
+        <div class="ritmo-title">Faltam 97+ vendas (pago)</div>
+        <div class="ritmo-rows">
+          <div class="ritmo-row"><span class="rk">Meta diária (pago)</span><span class="rv hot">4,2 vendas/dia</span></div>
+          <div class="ritmo-row"><span class="rk">Meta semanal (pago)</span><span class="rv hot">29 vendas/semana</span></div>
+          <div class="ritmo-row"><span class="rk">Não pago</span><span class="rv">Aguardando parcial</span></div>
+          <div class="ritmo-row"><span class="rk">Foco imediato</span><span class="rv hot">Fechar não pago ASAP</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOTIVACIONAL -->
+  <div class="motive">
+    <h2>A virada acontece <span>na segunda quinzena.</span></h2>
+    <p>Todo mês tem uma inflexão. Os números de hoje mostram onde estamos — não onde vamos terminar. Com foco, ritmo e execução esses 15 dias são suficientes pra fazer a diferença.</p>
+    <div class="motive-items">
+      <div class="motive-item">
+        <div class="mi-num">15</div>
+        <div class="mi-lbl">dias pela frente</div>
+      </div>
+      <div class="motive-item">
+        <div class="mi-num">3</div>
+        <div class="mi-lbl">frentes para atacar</div>
+      </div>
+      <div class="motive-item">
+        <div class="mi-num">1</div>
+        <div class="mi-lbl">time, uma meta</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Seazone · Parcial de Abril · Atualizado em 16/04/2026</div>
+
+</body>
+</html>
