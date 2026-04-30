@@ -295,7 +295,9 @@ body {
 <div class="nav">
   <button class="active" onclick="go(0,this)">Abril — Resultados</button>
   <button onclick="go(1,this)">Maio — Metas</button>
+  <button id="save-btn" onclick="saveAll()" style="margin-left:auto;background:#ff6b35;color:#000;border:none;font-weight:900;letter-spacing:1px">💾 Salvar</button>
 </div>
+<div id="save-toast" style="display:none;position:fixed;bottom:32px;right:32px;background:#22c55e;color:#000;font-weight:800;font-size:14px;padding:14px 24px;border-radius:14px;z-index:999;box-shadow:0 4px 24px rgba(34,197,94,.4)">✓ Salvo!</div>
 
 <!-- ================================================================
      PAGE 0 — ABRIL
@@ -813,11 +815,44 @@ function calcCAC(realId, metaId, thermoId, gapId, cardId) {
   }
 }
 
-// inicializa SZI e CAC com os valores default
+// IDs de todos os inputs editáveis
+const ALL_INPUTS = [
+  'szi-rt','szi-mt','szi-rp','szi-mp','szi-rnp','szi-mnp',
+  'szs-rt','szs-mt','szs-rp','szs-mp','szs-rnp','szs-mnp',
+  'mp-rt','mp-mt','mp-rp','mp-mp','mp-rnp','mp-mnp',
+  'cac-szi-r','cac-szi-m','cac-szs-r','cac-szs-m','cac-mp-r','cac-mp-m'
+];
+
+function saveAll() {
+  ALL_INPUTS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) localStorage.setItem('sz_' + id, el.value);
+  });
+  const toast = document.getElementById('save-toast');
+  toast.style.display = 'block';
+  setTimeout(() => toast.style.display = 'none', 2000);
+}
+
+function loadSaved() {
+  ALL_INPUTS.forEach(id => {
+    const val = localStorage.getItem('sz_' + id);
+    const el = document.getElementById(id);
+    if (val !== null && el) el.value = val;
+  });
+}
+
+// inicializa SZI e CAC com os valores default (ou salvos)
 window.addEventListener('load', function() {
+  loadSaved();
   calcCardBoth('szi-rt','szi-mt','szi-thermo-t','szi-gap-t','szi-card-total');
   calcCardBoth('szi-rp','szi-mp','szi-thermo-p','szi-gap-p','szi-card-pago');
   calcCardBoth('szi-rnp','szi-mnp','szi-thermo-np','szi-gap-np','szi-card-np');
+  calcCardBoth('szs-rt','szs-mt','szs-thermo','szs-gap','szs-card-total');
+  calcCardBoth('szs-rp','szs-mp','szs-thermo-p','szs-gap-p','szs-card-pago');
+  calcCardBoth('szs-rnp','szs-mnp','szs-thermo-np','szs-gap-np','szs-card-np');
+  calcCardBoth('mp-rt','mp-mt','mp-thermo-t','mp-gap-t','mp-card-total');
+  calcCardBoth('mp-rp','mp-mp','mp-thermo-p','mp-gap-p','mp-card-pago');
+  calcCardBoth('mp-rnp','mp-mnp','mp-thermo-np','mp-gap-np','mp-card-np');
   calcCAC('cac-szi-r','cac-szi-m','cac-thermo-szi','cac-gap-szi','cac-card-szi');
   calcCAC('cac-szs-r','cac-szs-m','cac-thermo-szs','cac-gap-szs','cac-card-szs');
   calcCAC('cac-mp-r','cac-mp-m','cac-thermo-mp','cac-gap-mp','cac-card-mp');
